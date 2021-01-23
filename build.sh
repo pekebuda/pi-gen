@@ -31,68 +31,8 @@ do
 	esac
 done
 
-export PI_GEN=${PI_GEN:-pi-gen}
-export PI_GEN_REPO=${PI_GEN_REPO:-https://github.com/RPi-Distro/pi-gen}
-
-if [ -z "${IMG_NAME}" ]; then
-	echo "IMG_NAME not set" 1>&2
-	exit 1
-fi
-
-export USE_QEMU="${USE_QEMU:-0}"
-export IMG_DATE="${IMG_DATE:-"$(date +%Y-%m-%d)"}"
-export IMG_FILENAME="${IMG_FILENAME:-"${IMG_DATE}-${IMG_NAME}"}"
-export ZIP_FILENAME="${ZIP_FILENAME:-"image_${IMG_DATE}-${IMG_NAME}"}"
-
-export SCRIPT_DIR="${BASE_DIR}/scripts"
-export WORK_DIR="${WORK_DIR:-"${BASE_DIR}/work/${IMG_DATE}-${IMG_NAME}"}"
-export DEPLOY_DIR=${DEPLOY_DIR:-"${BASE_DIR}/deploy"}
-export DEPLOY_ZIP="${DEPLOY_ZIP:-1}"
-export LOG_FILE="${WORK_DIR}/build.log"
-
-export TARGET_HOSTNAME=${TARGET_HOSTNAME:-raspberrypi}
-
-export FIRST_USER_NAME=${FIRST_USER_NAME:-pi}
-export FIRST_USER_PASS=${FIRST_USER_PASS:-raspberry}
-export RELEASE=${RELEASE:-buster}
-export WPA_ESSID
-export WPA_PASSWORD
-export WPA_COUNTRY
-export ENABLE_SSH="${ENABLE_SSH:-0}"
-export PUBKEY_ONLY_SSH="${PUBKEY_ONLY_SSH:-0}"
-
-export LOCALE_DEFAULT="${LOCALE_DEFAULT:-en_GB.UTF-8}"
-
-export KEYBOARD_KEYMAP="${KEYBOARD_KEYMAP:-gb}"
-export KEYBOARD_LAYOUT="${KEYBOARD_LAYOUT:-English (UK)}"
-
-export TIMEZONE_DEFAULT="${TIMEZONE_DEFAULT:-Europe/London}"
-
-export GIT_HASH=${GIT_HASH:-"$(git rev-parse HEAD)"}
-
-export PUBKEY_SSH_FIRST_USER
-
-export CLEAN
-export IMG_NAME
-export APT_PROXY
-
-export STAGE
-export STAGE_DIR
-export STAGE_WORK_DIR
-export PREV_STAGE
-export PREV_STAGE_DIR
-export ROOTFS_DIR
-export PREV_ROOTFS_DIR
-export IMG_SUFFIX
-export NOOBS_NAME
-export NOOBS_DESCRIPTION
-export EXPORT_DIR
-export EXPORT_ROOTFS_DIR
-
-export QUILT_PATCHES
-export QUILT_NO_DIFF_INDEX=1
-export QUILT_NO_DIFF_TIMESTAMPS=1
-export QUILT_REFRESH_ARGS="-p ab"
+# shellcheck source=scripts/parameterize_execution
+source "${SCRIPT_DIR}/parameterize_execution"
 
 # shellcheck source=scripts/common
 source "${SCRIPT_DIR}/common"
