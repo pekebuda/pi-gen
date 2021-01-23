@@ -1,5 +1,5 @@
 #!/bin/bash -e
-# shellcheck source=scripts/common
+# shellcheck source=scripts/run_sub_stage
 source "${SCRIPT_DIR}/run_sub_stage"
 
 run_stage(){
