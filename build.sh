@@ -2,43 +2,8 @@
 # shellcheck source=scripts/run_sub_stage
 source "${SCRIPT_DIR}/run_sub_stage"
 
-run_stage(){
-	log "Begin ${STAGE_DIR}"
-	STAGE="$(basename "${STAGE_DIR}")"
-	pushd "${STAGE_DIR}" > /dev/null
-	unmount "${WORK_DIR}/${STAGE}"
-	STAGE_WORK_DIR="${WORK_DIR}/${STAGE}"
-	ROOTFS_DIR="${STAGE_WORK_DIR}"/rootfs
-	if [ ! -f SKIP_IMAGES ]; then
-		if [ -f "${STAGE_DIR}/EXPORT_IMAGE" ]; then
-			EXPORT_DIRS="${EXPORT_DIRS} ${STAGE_DIR}"
-		fi
-	fi
-	if [ ! -f SKIP ]; then
-		if [ "${CLEAN}" = "1" ]; then
-			if [ -d "${ROOTFS_DIR}" ]; then
-				rm -rf "${ROOTFS_DIR}"
-			fi
-		fi
-		if [ -x prerun.sh ]; then
-			log "Begin ${STAGE_DIR}/prerun.sh"
-			./prerun.sh
-			log "End ${STAGE_DIR}/prerun.sh"
-		fi
-		for SUB_STAGE_DIR in "${STAGE_DIR}"/*; do
-			if [ -d "${SUB_STAGE_DIR}" ] &&
-			   [ ! -f "${SUB_STAGE_DIR}/SKIP" ]; then
-				run_sub_stage
-			fi
-		done
-	fi
-	unmount "${WORK_DIR}/${STAGE}"
-	PREV_STAGE="${STAGE}"
-	PREV_STAGE_DIR="${STAGE_DIR}"
-	PREV_ROOTFS_DIR="${ROOTFS_DIR}"
-	popd > /dev/null
-	log "End ${STAGE_DIR}"
-}
+# shellcheck source=scripts/run_stage
+source "${SCRIPT_DIR}/run_stage"
 
 if [ "$(id -u)" != "0" ]; then
 	echo "Please run as root" 1>&2
